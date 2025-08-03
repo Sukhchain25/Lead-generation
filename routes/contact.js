@@ -7,7 +7,6 @@ router.post("/", async (req, res) => {
   const { name, email, message, companyName } = req.body;
 
   try {
-    // Save the lead in the database
     const lead = new Lead({
       name,
       email,
@@ -17,7 +16,7 @@ router.post("/", async (req, res) => {
     });
     await lead.save();
 
-    // ✉️ Send auto-reply to the user
+    // Send confirmation to user
     await sendMail(
       email,
       "Thanks for contacting CottonEdge Exports!",
@@ -34,21 +33,19 @@ router.post("/", async (req, res) => {
       `
     );
 
-    // 📩 Send a copy of the lead to your business email
+    // Send internal notification to you
     await sendMail(
       "sukhchain.singh@cottonedgeexports.in",
       "📬 New Contact Form Submission - CottonEdge",
       `
-      <div style="font-family: Arial, sans-serif; color: #444;">
-        <h3>📥 New Lead Captured</h3>
+        <h2>New Inquiry Received</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Company:</strong> ${companyName || "N/A"}</p>
+        <p><strong>Company:</strong> ${companyName || "Not provided"}</p>
         <p><strong>Message:</strong></p>
-        <blockquote style="margin-left: 1em; color: #666;">${message}</blockquote>
-        <hr/>
-        <p style="font-size: 0.9em;">This lead came through the <strong>contact form</strong>.</p>
-      </div>
+        <blockquote>${message}</blockquote>
+        <br/>
+        <p>🕐 Received on: ${new Date().toLocaleString()}</p>
       `
     );
 
@@ -56,7 +53,7 @@ router.post("/", async (req, res) => {
       .status(200)
       .json({ success: true, message: "Message sent successfully." });
   } catch (err) {
-    console.error("❌ Error in contact route:", err);
+    console.error(err);
     res.status(500).json({ success: false, message: "Something went wrong." });
   }
 });
