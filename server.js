@@ -22,3 +22,6 @@ mongoose
     });
   })
   .catch((err) => console.error("❌ MongoDB connection failed", err));
+
+  module.exports = app;
+
