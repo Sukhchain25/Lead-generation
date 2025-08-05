@@ -6,6 +6,7 @@ const leadSchema = new mongoose.Schema({
   message: String,
   companyName: String,
   source: { type: String, enum: ["contact", "catalog"], required: true },
+  company: String,
   createdAt: { type: Date, default: Date.now },
 });
 
