@@ -12,7 +12,7 @@ const { log } = require("console");
 const COMPANIES = {
   havve: {
     name: "Havve",
-    catalogFile: "Havve-catalog.pdf",
+    catalogFile: "Catalog-Havve.pdf",
     emailDomain: "havve.in",
     replyEmail: process.env.HAVVE_FROM_EMAIL,
     adminEmail: process.env.HAVVE_ADMIN_EMAIL,
